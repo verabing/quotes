@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zufallszitat</title>
     <style>
         body {
@@ -12,32 +13,37 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 1rem;
         }
 
         #quote-container {
             background: white;
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
             max-width: 600px;
             text-align: center;
         }
 
         #quote-text {
-            font-size: 1.5rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            word-wrap: break-word;
         }
 
         button {
             background-color: #007acc;
             color: white;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.8rem 1.4rem;
             border-radius: 6px;
             font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
             cursor: pointer;
             transition: background 0.2s ease;
         }
@@ -47,6 +53,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="quote-container">
         <p id="quote-text">Hier erscheint dein Zitat!</p>
