@@ -2,13 +2,39 @@ const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCB07pMA88ME-i7
 
 let quotes = [];
 
+const fonts = [
+    "Georgia, serif",
+    "'Segoe UI', sans-serif",
+    "'Courier New', monospace",
+    "'Lucida Handwriting', cursive",
+    "'Comic Sans MS', cursive",
+    "'Trebuchet MS', sans-serif",
+    "'Arial Narrow', sans-serif",
+    "'Palatino Linotype', serif"
+];
+
+function randomPastelColor() {
+    const hue = Math.floor(Math.random() * 360);
+    return `hsl(${hue}, 70%, 90%)`;
+}
+
+function randomFont() {
+    const index = Math.floor(Math.random() * fonts.length);
+    return fonts[index];
+}
+
+function applyRandomStyle() {
+    document.body.style.backgroundColor = randomPastelColor();
+    document.getElementById("quote-text").style.fontFamily = randomFont();
+}
+
 function loadCSV(url) {
     fetch(url)
         .then(response => response.text())
         .then(data => {
-            const rows = data.split("\n").slice(1); // Überspringe Header-Zeile
+            const rows = data.split("\n").slice(1);
             quotes = rows.map(row => row.trim().replace(/^"|"$/g, "")).filter(q => q.length > 0);
-            loadQuote(); // Zeige direkt ein erstes Zitat
+            loadQuote();
         })
         .catch(error => {
             console.error("Fehler beim Laden der Zitate:", error);
@@ -23,9 +49,9 @@ function loadQuote() {
     }
     const index = Math.floor(Math.random() * quotes.length);
     document.getElementById("quote-text").textContent = quotes[index];
+    applyRandomStyle();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     loadCSV(csvUrl);
-    document.querySelector("button").addEventListener("click", loadQuote);
 });
