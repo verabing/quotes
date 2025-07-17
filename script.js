@@ -1,4 +1,4 @@
-const csvUrl = "https://docs.google.com/spreadsheets/d/1HsAU4gcJw2PVwr4xXQufjyaFlP1FWaLSOz5Wb6Fz07M/gviz/tq?tqx=out:csv";
+const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCB07pMA88ME-i7lnv5K8JkVbI1tzBI4Th7HRvuRzBXi8Esa0TTXctOMzpTenbOkrqKmcdimAztXLz/pub?gid=0&single=true&output=csv";
 
 let quotes = [];
 
@@ -6,24 +6,26 @@ function loadCSV(url) {
     fetch(url)
         .then(response => response.text())
         .then(data => {
-            const rows = data.split("\n").slice(1); // erste Zeile ist Header
-            quotes = rows.map(row => row.trim()).filter(q => q.length > 0);
-            loadQuote(); // direkt erstes Zitat anzeigen
+            const rows = data.split("\n").slice(1); // Überspringe Header-Zeile
+            quotes = rows.map(row => row.trim().replace(/^"|"$/g, "")).filter(q => q.length > 0);
+            loadQuote(); // Zeige direkt ein erstes Zitat
         })
         .catch(error => {
-            console.error("Fehler beim Laden:", error);
-            document.getElementById("quote-text").textContent = "Fehler beim Laden der Zitate.";
+            console.error("Fehler beim Laden der Zitate:", error);
+            document.getElementById("quote-text").textContent = "Fehler beim Laden.";
         });
 }
 
 function loadQuote() {
     if (quotes.length === 0) {
-        document.getElementById("quote-text").textContent = "Keine Zitate gefunden.";
+        document.getElementById("quote-text").textContent = "Noch keine Zitate geladen.";
         return;
     }
     const index = Math.floor(Math.random() * quotes.length);
     document.getElementById("quote-text").textContent = quotes[index];
 }
 
-// beim Start laden
-loadCSV(csvUrl);
+document.addEventListener("DOMContentLoaded", () => {
+    loadCSV(csvUrl);
+    document.querySelector("button").addEventListener("click", loadQuote);
+});
