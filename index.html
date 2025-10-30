@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zufallszitat</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
     :root {
       --bg: #efefef;
       --white: #ffffff;
-      --text: #2b2b2b;
+      --text: #303234;
       --accent: #c35b8c;
       --frame: #4a5a57;
     }
@@ -19,7 +19,7 @@
     body {
       margin: 0;
       background: var(--bg);
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Poppins', sans-serif;
       color: var(--text);
       height: 100vh;
       overflow: hidden;
@@ -34,7 +34,7 @@
       width: 85%;
       max-width: 1100px;
       height: 80vh;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
       overflow: hidden;
     }
 
@@ -42,38 +42,39 @@
       position: absolute;
       top: 12%;
       left: 8%;
-      max-width: 450px;
+      max-width: 460px;
       z-index: 2;
     }
 
     #quote-text {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       line-height: 1.6;
-      font-weight: 500;
+      font-weight: 400;
       position: relative;
-      padding: 2rem 1.5rem;
+      padding: 2.2rem 1.8rem;
+      color: var(--text);
+      letter-spacing: 0.3px;
     }
 
-    /* elegante Linienrahmen */
     #quote-text::before,
     #quote-text::after {
       content: "";
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 55px;
+      height: 55px;
       border-color: var(--frame);
       border-style: solid;
     }
 
     #quote-text::before {
-      top: 0;
-      left: 0;
+      top: -8px;
+      left: -10px;
       border-width: 2px 0 0 2px;
     }
 
     #quote-text::after {
-      bottom: 0;
-      right: 0;
+      bottom: -6px;
+      right: -12px;
       border-width: 0 2px 2px 0;
     }
 
@@ -103,6 +104,15 @@
       z-index: 1;
     }
 
+    .cat {
+      position: absolute;
+      bottom: 0;
+      left: 5%;
+      width: 180px;
+      height: auto;
+      z-index: 1;
+    }
+
     @media (max-width: 900px) {
       .canvas {
         width: 95%;
@@ -114,12 +124,15 @@
         max-width: 70%;
       }
       #quote-text {
-        font-size: 1.1rem;
-        padding: 1.5rem 1rem;
+        font-size: 1.05rem;
       }
       .woman {
-        width: 55%;
+        width: 50%;
         right: 2%;
+      }
+      .cat {
+        width: 120px;
+        left: 6%;
       }
     }
 
@@ -131,12 +144,16 @@
       }
       #quote-text {
         font-size: 1rem;
-        padding: 1.2rem 0.8rem;
       }
       .woman {
-        width: 70%;
+        width: 65%;
         right: 10%;
         bottom: -5px;
+      }
+      .cat {
+        width: 100px;
+        left: 12%;
+        bottom: -4px;
       }
     }
   </style>
@@ -148,6 +165,12 @@
       <p id="quote-text">Ja, und…</p>
       <button onclick="loadQuote()">Neues Zitat</button>
     </div>
+
+    <img
+      src="vera_bing_a_cute_grey_striped_norwegian_forest_cat_lays_curle_a1436ff3-90e0-450e-b2d2-f3ffb8988868_3.png"
+      class="cat"
+      alt="Schlafende Katze"
+    />
 
     <img
       src="vera_bing_woman_with_long_ash-blonde_hair_wearing_a_red_jumpe_6d476382-60a4-483f-bd8f-3a00d4a6bc3c_2.png"
