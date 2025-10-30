@@ -9,7 +9,7 @@
 
   <style>
     :root {
-      --bg: #efefef; /* hellgrau */
+      --bg: #efefef;
       --white: #ffffff;
       --text: #2b2b2b;
       --accent: #c35b8c;
@@ -18,47 +18,67 @@
 
     body {
       margin: 0;
-      height: 100vh;
       background: var(--bg);
       font-family: 'Montserrat', sans-serif;
       color: var(--text);
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      position: relative;
-      padding: 2rem;
     }
 
-    .main-card {
+    .canvas {
       position: relative;
       background: var(--white);
-      width: 80%;
+      width: 85%;
       max-width: 1100px;
-      min-height: 500px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-left: 3px solid var(--frame);
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-      padding: 3rem 4rem;
-      box-sizing: border-box;
+      height: 80vh;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
     }
 
     #quote-container {
-      flex: 1;
-      max-width: 500px;
+      position: absolute;
+      top: 12%;
+      left: 8%;
+      max-width: 450px;
       z-index: 2;
     }
 
     #quote-text {
-      font-size: 1.3rem;
-      line-height: 1.5;
+      font-size: 1.25rem;
+      line-height: 1.6;
       font-weight: 500;
+      position: relative;
+      padding: 2rem 1.5rem;
+    }
+
+    /* elegante Linienrahmen */
+    #quote-text::before,
+    #quote-text::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-color: var(--frame);
+      border-style: solid;
+    }
+
+    #quote-text::before {
+      top: 0;
+      left: 0;
+      border-width: 2px 0 0 2px;
+    }
+
+    #quote-text::after {
+      bottom: 0;
+      right: 0;
+      border-width: 0 2px 2px 0;
     }
 
     button {
-      margin-top: 1.5rem;
+      margin-top: 1rem;
       background-color: var(--accent);
       color: white;
       border: none;
@@ -74,53 +94,56 @@
     }
 
     .woman {
-      height: 420px;
-      width: auto;
+      position: absolute;
+      bottom: 0;
+      right: 4%;
+      width: 360px;
       max-width: 40%;
-      object-fit: contain;
-      margin-left: 2rem;
+      height: auto;
+      z-index: 1;
     }
 
     @media (max-width: 900px) {
-      .main-card {
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem;
-        width: 90%;
-        min-height: auto;
-      }
-      .woman {
-        width: 60%;
-        height: auto;
-        margin: 2rem 0 0 0;
+      .canvas {
+        width: 95%;
+        height: 85vh;
       }
       #quote-container {
-        max-width: 90%;
-        text-align: center;
+        top: 10%;
+        left: 7%;
+        max-width: 70%;
       }
       #quote-text {
         font-size: 1.1rem;
+        padding: 1.5rem 1rem;
+      }
+      .woman {
+        width: 55%;
+        right: 2%;
       }
     }
 
     @media (max-width: 600px) {
-      .main-card {
-        width: 95%;
-        padding: 1.5rem;
+      #quote-container {
+        top: 8%;
+        left: 6%;
+        max-width: 80%;
       }
       #quote-text {
         font-size: 1rem;
+        padding: 1.2rem 0.8rem;
       }
       .woman {
         width: 70%;
-        opacity: 0.9;
+        right: 10%;
+        bottom: -5px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="main-card">
+  <div class="canvas">
     <div id="quote-container">
       <p id="quote-text">Ja, und…</p>
       <button onclick="loadQuote()">Neues Zitat</button>
