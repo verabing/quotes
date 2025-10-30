@@ -9,7 +9,8 @@
 
   <style>
     :root {
-      --bg: #faf9f7; /* angepasst an Bildweiß */
+      --bg: #efefef; /* hellgrau */
+      --white: #ffffff;
       --text: #2b2b2b;
       --accent: #c35b8c;
       --frame: #4a5a57;
@@ -29,30 +30,40 @@
       padding: 2rem;
     }
 
-    #quote-container {
+    .main-card {
       position: relative;
-      z-index: 2;
-      max-width: 600px;
-      padding: 2rem 2.5rem;
-      text-align: left;
-      background: rgba(255, 255, 255, 0.65);
+      background: var(--white);
+      width: 80%;
+      max-width: 1100px;
+      min-height: 500px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-left: 3px solid var(--frame);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      padding: 3rem 4rem;
+      box-sizing: border-box;
+    }
+
+    #quote-container {
+      flex: 1;
+      max-width: 500px;
+      z-index: 2;
     }
 
     #quote-text {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       line-height: 1.5;
       font-weight: 500;
     }
 
     button {
-      margin-top: 1.6rem;
+      margin-top: 1.5rem;
       background-color: var(--accent);
       color: white;
       border: none;
-      padding: 0.7rem 1.4rem;
-      font-size: 0.95rem;
+      padding: 0.6rem 1.3rem;
+      font-size: 0.9rem;
       border-radius: 4px;
       cursor: pointer;
       transition: background 0.2s ease;
@@ -63,67 +74,64 @@
     }
 
     .woman {
-      position: fixed;
-      bottom: 0;
-      right: 5vw;
-      width: 320px;
-      max-width: 35%;
-      height: auto;
-      pointer-events: none;
-      opacity: 0.95;
-      z-index: 1;
+      height: 420px;
+      width: auto;
+      max-width: 40%;
+      object-fit: contain;
+      margin-left: 2rem;
     }
 
     @media (max-width: 900px) {
-      #quote-container {
-        max-width: 85%;
-        padding: 1.8rem;
-      }
-      #quote-text {
-        font-size: 1.2rem;
+      .main-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        width: 90%;
+        min-height: auto;
       }
       .woman {
-        width: 50%;
-        right: 3vw;
-        opacity: 0.85;
+        width: 60%;
+        height: auto;
+        margin: 2rem 0 0 0;
+      }
+      #quote-container {
+        max-width: 90%;
+        text-align: center;
+      }
+      #quote-text {
+        font-size: 1.1rem;
       }
     }
 
     @media (max-width: 600px) {
-      body {
-        align-items: flex-start;
-        padding-top: 3rem;
-      }
-      #quote-container {
-        max-width: 90%;
-        border-left: 2px solid var(--frame);
+      .main-card {
+        width: 95%;
+        padding: 1.5rem;
       }
       #quote-text {
-        font-size: 1.05rem;
-        text-align: center;
+        font-size: 1rem;
       }
       .woman {
-        position: fixed;
         width: 70%;
-        right: 15%;
-        bottom: -10px;
-        opacity: 0.8;
+        opacity: 0.9;
       }
     }
   </style>
 </head>
 
 <body>
-  <div id="quote-container">
-    <p id="quote-text">Ja, und…</p>
-    <button onclick="loadQuote()">Neues Zitat</button>
-  </div>
+  <div class="main-card">
+    <div id="quote-container">
+      <p id="quote-text">Ja, und…</p>
+      <button onclick="loadQuote()">Neues Zitat</button>
+    </div>
 
-  <img
-    src="vera_bing_woman_with_long_ash-blonde_hair_wearing_a_red_jumpe_6d476382-60a4-483f-bd8f-3a00d4a6bc3c_2.png"
-    class="woman"
-    alt="Frau mit Tasse"
-  />
+    <img
+      src="vera_bing_woman_with_long_ash-blonde_hair_wearing_a_red_jumpe_6d476382-60a4-483f-bd8f-3a00d4a6bc3c_2.png"
+      class="woman"
+      alt="Frau mit Tasse"
+    />
+  </div>
 
   <script src="script.js"></script>
 </body>
