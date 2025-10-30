@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zufallszitat</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
+    :root {
+      --bg: #faf9f7; /* angepasst an Bildweiß */
+      --text: #2b2b2b;
+      --accent: #c35b8c;
+      --frame: #4a5a57;
+    }
+
     body {
       margin: 0;
-      padding: 0;
       height: 100vh;
+      background: var(--bg);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #e7efee; /* helles petrol-offwhite */
-      font-family: 'Oswald', sans-serif;
-      color: #2b2b2b;
       overflow: hidden;
       position: relative;
+      padding: 2rem;
     }
 
     #quote-container {
-      max-width: 700px;
-      padding: 3rem;
-      text-align: center;
-      border: 2px solid #364d4a;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.4);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      position: relative;
       z-index: 2;
+      max-width: 600px;
+      padding: 2rem 2.5rem;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.65);
+      border-left: 3px solid var(--frame);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
     }
 
     #quote-text {
-      font-size: 1.8rem;
-      font-weight: 400;
-      line-height: 1.4;
-      letter-spacing: 0.5px;
+      font-size: 1.4rem;
+      line-height: 1.5;
+      font-weight: 500;
     }
 
     button {
-      margin-top: 1.8rem;
-      background-color: #c35b8c;
+      margin-top: 1.6rem;
+      background-color: var(--accent);
       color: white;
       border: none;
-      padding: 0.8rem 1.6rem;
-      border-radius: 6px;
-      font-size: 1rem;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.95rem;
+      border-radius: 4px;
       cursor: pointer;
       transition: background 0.2s ease;
     }
@@ -56,28 +62,51 @@
       background-color: #a94672;
     }
 
-    /* Bild unten rechts fixieren */
     .woman {
       position: fixed;
       bottom: 0;
-      right: 0;
-      width: 400px;
-      max-width: 40%;
+      right: 5vw;
+      width: 320px;
+      max-width: 35%;
       height: auto;
       pointer-events: none;
-      z-index: 1;
       opacity: 0.95;
+      z-index: 1;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 900px) {
       #quote-container {
-        padding: 2rem;
+        max-width: 85%;
+        padding: 1.8rem;
       }
       #quote-text {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
       }
       .woman {
-        width: 60%;
+        width: 50%;
+        right: 3vw;
+        opacity: 0.85;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        align-items: flex-start;
+        padding-top: 3rem;
+      }
+      #quote-container {
+        max-width: 90%;
+        border-left: 2px solid var(--frame);
+      }
+      #quote-text {
+        font-size: 1.05rem;
+        text-align: center;
+      }
+      .woman {
+        position: fixed;
+        width: 70%;
+        right: 15%;
+        bottom: -10px;
         opacity: 0.8;
       }
     }
@@ -90,7 +119,11 @@
     <button onclick="loadQuote()">Neues Zitat</button>
   </div>
 
-  <img src="vera_bing_woman_with_long_ash-blonde_hair_wearing_a_red_jumpe_6d476382-60a4-483f-bd8f-3a00d4a6bc3c_2.png" class="woman" alt="Woman with cup">
+  <img
+    src="vera_bing_woman_with_long_ash-blonde_hair_wearing_a_red_jumpe_6d476382-60a4-483f-bd8f-3a00d4a6bc3c_2.png"
+    class="woman"
+    alt="Frau mit Tasse"
+  />
 
   <script src="script.js"></script>
 </body>
