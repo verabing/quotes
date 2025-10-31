@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
- <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="manifest" href="manifest.json">
-  
-  
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
   
   <title>Zufallszitat</title>
 
@@ -50,7 +48,6 @@
       box-sizing: border-box;
     }
 
-    /* --- Zitatbereich --- */
     #quote-container {
       z-index: 2;
       max-width: 500px;
@@ -104,7 +101,6 @@
       background-color: #a94672;
     }
 
-    /* --- Deko-Bilder unten --- */
     .illustration-wrapper {
       position: relative;
       width: 100%;
@@ -131,63 +127,13 @@
       width: clamp(180px, 35vw, 360px);
       margin-right: 3%;
     }
-
-    /* --- Mobile Anpassungen --- */
-    @media (max-width: 768px) {
-      .canvas {
-        width: 95%;
-        height: 85dvh;
-        padding: 1.6rem;
-      }
-
-      #quote-container {
-        max-width: 85%;
-      }
-
-      #quote-text {
-        font-size: 1.05rem;
-        padding: 1.8rem 1.4rem;
-      }
-
-      .illustration-wrapper {
-        justify-content: space-around;
-        padding-bottom: 0.8rem;
-      }
-
-      .cat {
-        width: clamp(90px, 25vw, 120px);
-      }
-
-      .woman {
-        width: clamp(160px, 45vw, 220px);
-      }
-    }
-
-    @media (max-width: 500px) {
-      #quote-text {
-        font-size: 1rem;
-        padding: 1.5rem 1rem;
-      }
-
-      .illustration-wrapper {
-        padding-bottom: 1rem;
-      }
-
-      .cat {
-        width: 100px;
-      }
-
-      .woman {
-        width: 180px;
-      }
-    }
   </style>
 </head>
 
 <body>
   <div class="canvas">
     <div id="quote-container">
-      <p id="quote-text">„Ja, und…“</p>
+      <p id="quote-text">Zitat wird geladen …</p>
       <button onclick="loadQuote()">Neues Zitat</button>
     </div>
 
@@ -206,22 +152,36 @@
   </div>
 
   <script>
-    const quotes = [
-      "Ich muss nicht ziehen – ich darf reifen.",
-      "Aus der Lücke einen Elefanten machen.",
-      "Ich atme, also bin ich.",
-      "Manchmal ist das Warten der mutigste Akt.",
-      "Ich darf leise wachsen.",
-      "Nicht alles braucht eine Antwort."
-    ];
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCB07pMA88ME-i7lnv5K8JkVbI1tzBI4Th7HRvuRzBXi8Esa0TTXctOMzpTenbOkrqKmcdimAztXLz/pub?gid=0&single=true&output=csv";
+
+    let quotes = [];
+
+    function loadCSV(url) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          const rows = data.split("\n").map(r => r.trim()).filter(r => r.length > 0);
+          quotes = rows.map(row => row.replace(/^"|"$/g, ""));
+          loadQuote();
+        })
+        .catch(error => {
+          console.error("Fehler beim Laden der Zitate:", error);
+          document.getElementById("quote-text").textContent = "Fehler beim Laden.";
+        });
+    }
 
     function loadQuote() {
-      const randomIndex = Math.floor(Math.random() * quotes.length);
-      document.getElementById("quote-text").textContent = quotes[randomIndex];
+      if (quotes.length === 0) {
+        document.getElementById("quote-text").textContent = "Noch keine Zitate geladen.";
+        return;
+      }
+      const index = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quote-text").textContent = quotes[index];
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCSV(csvUrl);
+    });
   </script>
 </body>
 </html>
-
-
-
