@@ -20,6 +20,7 @@
       --text: #303234;
       --accent: #c35b8c;
       --frame: #4a5a57;
+      --illus-height: clamp(160px, 22vh, 260px);
     }
 
     body {
@@ -27,10 +28,12 @@
       background: var(--bg);
       font-family: 'Poppins', sans-serif;
       color: var(--text);
-      height: 100dvh;
+      min-height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 1.5rem 0;
+      box-sizing: border-box;
     }
 
     .canvas {
@@ -38,14 +41,26 @@
       background: var(--white);
       width: 85%;
       max-width: 1100px;
-      height: 80dvh;
+      /* Høyde tilpasser seg innholdet, men ikke mer enn 90dvh */
+      min-height: 400px;
+      max-height: 90dvh;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 2rem;
       box-sizing: border-box;
+    }
+
+    /* Sitatdelen vokser og tar tilgjengelig plass,
+       men scroller aldri – den komprimerer bare litt */
+    .quote-area {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem 2rem 1rem 2rem;
+      min-height: 0; /* viktig for flex shrink */
+      overflow: hidden;
     }
 
     #quote-container {
@@ -54,13 +69,14 @@
     }
 
     #quote-text {
-      font-size: 1.2rem;
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
       line-height: 1.6;
       font-weight: 400;
       position: relative;
       padding: 2.2rem 1.8rem;
       color: var(--text);
       letter-spacing: 0.3px;
+      margin: 0;
     }
 
     #quote-text::before,
@@ -101,40 +117,41 @@
       background-color: #a94672;
     }
 
+    /* Illustrasjonsdelen er fast i høyde – krymper aldri */
     .illustration-wrapper {
-      position: relative;
+      flex: 0 0 var(--illus-height);
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-top: auto;
-      padding-bottom: 0.5rem;
+      padding: 0 3% 0 3%;
+      box-sizing: border-box;
       z-index: 1;
     }
 
     .illustration-wrapper img {
-      height: auto;
+      height: var(--illus-height);
+      width: auto;
       object-fit: contain;
+      object-position: bottom;
       user-select: none;
+      display: block;
     }
 
-    .cat {
-      width: clamp(100px, 18vw, 180px);
-      margin-left: 3%;
-    }
-
-    .woman {
-      width: clamp(180px, 35vw, 360px);
-      margin-right: 3%;
-    }
+    /* Breddetak slik at bildene ikke blir for store på bred skjerm */
+    .cat  { max-width: 180px; }
+    .woman { max-width: 360px; }
   </style>
 </head>
 
 <body>
   <div class="canvas">
-    <div id="quote-container">
-      <p id="quote-text">Zitat wird geladen …</p>
-      <button onclick="loadQuote()">Neues Zitat</button>
+
+    <div class="quote-area">
+      <div id="quote-container">
+        <p id="quote-text">Zitat wird geladen …</p>
+        <button onclick="loadQuote()">Neues Zitat</button>
+      </div>
     </div>
 
     <div class="illustration-wrapper">
@@ -149,6 +166,7 @@
         alt="Frau mit Tasse"
       />
     </div>
+
   </div>
 
   <script>
