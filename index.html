@@ -119,28 +119,28 @@
 
     /* Illustrasjonsdelen er fast i høyde – krymper aldri */
     .illustration-wrapper {
-      flex: 0 0 var(--illus-height);
+      flex: 0 0 auto;
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      padding: 0 3% 0 3%;
       box-sizing: border-box;
       z-index: 1;
+      overflow: hidden;
     }
 
     .illustration-wrapper img {
-      height: var(--illus-height);
       width: auto;
       object-fit: contain;
       object-position: bottom;
       user-select: none;
       display: block;
+      flex-shrink: 1;
     }
 
-    /* Breddetak slik at bildene ikke blir for store på bred skjerm */
-    .cat  { max-width: 180px; }
-    .woman { max-width: 360px; }
+    /* Prosent av container slik at de alltid passer inn */
+    .cat   { height: clamp(120px, 18vw, 200px); max-width: 38%; }
+    .woman { height: clamp(160px, 28vw, 300px); max-width: 55%; }
   </style>
 </head>
 
