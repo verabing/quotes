@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  
+  <title>Zufallszitat</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #efefef;
+      --white: #ffffff;
+      --text: #303234;
+      --accent: #c35b8c;
+      --frame: #4a5a57;
+      --illus-height: clamp(160px, 22vh, 260px);
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem 0;
+      box-sizing: border-box;
+    }
+
+    .canvas {
+      position: relative;
+      background: var(--white);
+      width: 85%;
+      max-width: 1100px;
+      /* Høyde tilpasser seg innholdet, men ikke mer enn 90dvh */
+      min-height: 400px;
+      max-height: 90dvh;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    /* Sitatdelen vokser og tar tilgjengelig plass,
+       men scroller aldri – den komprimerer bare litt */
+    .quote-area {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem 2rem 1rem 2rem;
+      min-height: 0; /* viktig for flex shrink */
+      overflow: hidden;
+    }
+
+    #quote-container {
+      z-index: 2;
+      max-width: 500px;
+    }
+
+    #quote-text {
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      line-height: 1.6;
+      font-weight: 400;
+      position: relative;
+      padding: 2.2rem 1.8rem;
+      color: var(--text);
+      letter-spacing: 0.3px;
+      margin: 0;
+    }
+
+    #quote-text::before,
+    #quote-text::after {
+      content: "";
+      position: absolute;
+      width: 55px;
+      height: 55px;
+      border-color: var(--frame);
+      border-style: solid;
+    }
+
+    #quote-text::before {
+      top: -8px;
+      left: -10px;
+      border-width: 2px 0 0 2px;
+    }
+
+    #quote-text::after {
+      bottom: -6px;
+      right: -12px;
+      border-width: 0 2px 2px 0;
+    }
+
+    button {
+      margin-top: 1rem;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.3rem;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #a94672;
+    }
+
+    /* Illustrasjonsdelen er fast i høyde – krymper aldri */
+    .illustration-wrapper {
+      flex: 0 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      box-sizing: border-box;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .illustration-wrapper img {
+      width: auto;
+      object-fit: contain;
+      object-position: bottom;
+      user-select: none;
+      display: block;
+      flex-shrink: 1;
+    }
+
+    /* Prosent av container slik at de alltid passer inn */
+    .cat   { height: clamp(120px, 18vw, 200px); max-width: 38%; }
+    .woman { height: clamp(160px, 28vw, 300px); max-width: 55%; }
+  </style>
+</head>
+
+<body>
+  <div class="canvas">
+
+    <div class="quote-area">
+      <div id="quote-container">
+        <p id="quote-text">Zitat wird geladen …</p>
+        <button onclick="loadQuote()">Neues Zitat</button>
+      </div>
+    </div>
+
+    <div class="illustration-wrapper">
+      <img
+        src="vera_bing_a_cute_grey_striped_norwegian_forest_cat_lays_curle_a1436ff3-90e0-450e-b2d2-f3ffb8988868_3.png"
+        class="cat"
+        alt="Schlafende Katze"
+      />
+      <img
+        src="vera_bing_woman_with_long_ash-blonde_hair_wearing_a_red_jumpe_6d476382-60a4-483f-bd8f-3a00d4a6bc3c_2.png"
+        class="woman"
+        alt="Frau mit Tasse"
+      />
+    </div>
+
+  </div>
+
+  <script>
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCB07pMA88ME-i7lnv5K8JkVbI1tzBI4Th7HRvuRzBXi8Esa0TTXctOMzpTenbOkrqKmcdimAztXLz/pub?gid=0&single=true&output=csv";
+
+    let quotes = [];
+
+    function loadCSV(url) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          const rows = data.split("\n").map(r => r.trim()).filter(r => r.length > 0);
+          quotes = rows.map(row => row.replace(/^"|"$/g, ""));
+          loadQuote();
+        })
+        .catch(error => {
+          console.error("Fehler beim Laden der Zitate:", error);
+          document.getElementById("quote-text").textContent = "Fehler beim Laden.";
+        });
+    }
+
+    function loadQuote() {
+      if (quotes.length === 0) {
+        document.getElementById("quote-text").textContent = "Noch keine Zitate geladen.";
+        return;
+      }
+      const index = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quote-text").textContent = quotes[index];
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCSV(csvUrl);
+    });
+  </script>
+</body>
+</html>
